@@ -63,7 +63,7 @@
     }
 
     function validate(str) {
-      return /\d+/.test(str);
+      return /^\d+$/.test(str);
     }
 
     $('#left-in').onclick = deal([].unshift, null, getInputValue);
