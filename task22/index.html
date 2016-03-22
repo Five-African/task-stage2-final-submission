@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		div
+		{
+			border: solid 2px black;
+			padding: 20px;
+			float: left;
+			margin: 5px;
+			background-color: white;
+		}
+		.active
+		{
+			background-color: blue;
+		}
+	</style>
+</head>
+<body>
+<section>
+	<div id="root">
+		<div>
+			<div>
+				<div></div>
+				<div></div>
+			</div>
+			<div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<div>
+			<div>
+				<div></div>
+				<div></div>
+			</div>
+			<div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+</section>
+<textarea id="node" placeholder="输入HTML形式节点"><div><div><div></div><div></div></div><div><div></div><div></div></div></div><div><div><div></div><div></div></div><div><div></div><div></div></div></div></textarea>
+<button onclick="init()">替换节点</button>
+<button onclick="Traversal('pre')">先序遍历</button><button onclick="Traversal('in')">中序遍历</button><button onclick="Traversal('post')">后序遍历</button><button onclick="Traversal('level')">广度优先遍历</button><button onclick="Traversal('depth')">深度优先遍历</button>
+
+	<script type="text/javascript">
+		$ = function (el) { return document.querySelector(el); };
+		function delay(fn, args, t) {
+		    // private instance variables
+		    var queue = [], self, timer;
+    
+		    function schedule(fn, args, t) {
+		    	timer = setTimeout(function() {
+		    		timer = null;
+		    		fn(args);
+		    		if (queue.length) {
+		    			var item = queue.shift();
+		    			schedule(item.fn, item.args, item.t);
+		    		}
+		    	}, t);            
+		    }
+		    self = {
+		    	delay: function(fn, args, t) {
+		            if (queue.length || timer) {
+		            	queue.push({fn: fn, args: args, t: t});
+		            } else {
+		                schedule(fn, args, t);
+		            }
+		            return self;
+		        },
+		        cancel: function() {
+		        	clearTimeout(timer);
+		        	queue = [];
+		        }
+		    };
+		    return self.delay(fn, args, t);
+		}
+		function setClass(node)
+		{
+			node.className="active";
+		}
+		function removeClass(node)
+		{
+			node.className="";
+		}
+		function dosomething(node)
+		{
+			if(this.delayChian)
+				this.delayChian.delay(setClass,node,0).delay(removeClass,node,500);
+			else
+				this.delayChian=delay(setClass,node,0).delay(removeClass,node,500);
+		}
+
+
+		function preOrder(node)
+		{
+			if(!node)
+				return;
+			dosomething(node);
+			preOrder(node.firstElementChild);
+			if(node.children.length>=2)
+				preOrder(node.lastElementChild);
+		}
+
+		function inOrder(node)
+		{
+			if(!node)
+				return;
+			midOrder(node.firstElementChild);
+			dosomething(node);
+			if(node.children.length>=2)
+				midOrder(node.lastElementChild);
+		}
+
+		function postOrder(node)
+		{
+			if(!node)
+				return;
+			postOrder(node.firstElementChild);
+			if(node.children.length>=2)
+				postOrder(node.lastElementChild);
+			dosomething(node);
+		}
+
+		function levelOrder(node)
+		{
+			if(!this.q)
+				this.q=new Array();
+			if(!node)
+				return;
+			q.push(node);
+			dosomething(node);
+			levelOrder(node.nextElementSibling);
+			node = q.shift();
+			levelOrder(node.firstElementChild);
+		}
+
+		function depthOrder(node)
+		{
+			if(!this.q)
+				this.q=new Array();
+			if(!node)
+				return;
+			q.push(node);
+			dosomething(node);
+			depthOrder(node.firstElementChild);
+			node = q.pop();
+			depthOrder(node.nextElementSibling);
+		}
+
+		function Traversal(order)
+		{
+
+			switch(order)
+			{
+				case 'pre':preOrder($('#root'));break;
+				case 'in':inOrder($('#root'));break;
+				case 'post':postOrder($('#root'));break;
+				case 'level':levelOrder($('#root'));break;
+				case 'depth':depthOrder($('#root'));break;
+			}
+		}
+		function init()
+		{
+			$("#root").innerHTML=$("#node").value;
+		}
+	</script>
+</body>
+</html>
