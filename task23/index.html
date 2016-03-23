@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		div
+		{
+			border: solid 2px black;
+			padding: 20px;
+			float: left;
+			margin: 5px;
+			background-color: white;
+		}
+		.active
+		{
+			background-color: blue;
+		}
+		.found
+		{
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+<section>
+	<div id="root">Super
+		<div>Cat
+			<div>Apple
+				<div>Pear</div>
+				<div>Pig</div>
+				<div>Cola</div>
+				<div>Soccer</div>
+			</div>
+			<div>Phone</div>
+			<div>
+				<div>Book</div>
+				<div>School</div>
+			</div>
+		</div>
+		<div>Note
+			<div>Human
+				<div>Code</div>
+				<div>Operate</div>
+				<div>Man</div>
+			</div>
+			<div>Program
+				<div>Bement
+					<div>Cat</div>
+				</div>
+				<div>Glass</div>
+			</div>
+		</div>
+		<div>Fish</div>
+	</div>
+</section>
+<textarea id="node" placeholder="输入HTML形式节点">Super<div>Cat
+			<div>Apple
+				<div>Pear</div>
+				<div>Pig</div>
+				<div>Cola</div>
+				<div>Soccer</div>
+			</div>
+			<div>Phone</div>
+			<div>
+				<div>Book</div>
+				<div>School</div>
+			</div>
+		</div>
+		<div>Note
+			<div>Human
+				<div>Code</div>
+				<div>Operate</div>
+				<div>Man</div>
+			</div>
+			<div>Program
+				<div>Bement
+					<div>Cat</div>
+				</div>
+				<div>Glass</div>
+			</div>
+		</div>
+		<div>Fish</div>
+	</div></textarea>
+<button onclick="init()">替换节点</button>
+<button onclick="Traversal('pre')">先序遍历</button><button onclick="Traversal('in')">中序遍历</button><button onclick="Traversal('post')">后序遍历</button><button onclick="Traversal('level')">广度优先遍历</button><button onclick="Traversal('depth')">深度优先遍历</button>
+<input type="text" id="search" /><button onclick="Traversal('pre','search')">先序搜索</button><button onclick="Traversal('in','search')">中序搜索</button><button onclick="Traversal('post','search')">后序搜索</button><button onclick="Traversal('level','search')">广度优先搜索</button><button onclick="Traversal('depth','search')">深度优先搜索</button>
+	<script type="text/javascript">
+		$ = function (el) { return document.querySelector(el); };
+		//选取元素
+		var delayChian=delay(function(){},node,0);
+		var found=false;
+		var founded = false;
+		var isRun = false;
+		function delay(fn, args, t) {
+		    // private instance variables
+		    var queue = [], self, timer, disabled=false;
+    
+		    function schedule(fn, args, t) {
+		    	timer = setTimeout(function() {
+		    		timer = null;
+		    		fn(args);
+		    		if (queue.length) {
+		    			isRun = true;
+		    			var item = queue.shift();
+		    			schedule(item.fn, item.args, item.t);
+		    		}
+		    		else
+		    		{
+		    			isRun = false;
+		    		}
+		    	}, t);            
+		    }
+		    self = {
+		    	delay: function(fn, args, t) {
+		    		if(disabled)
+		    			return self;
+		            if (queue.length || timer) {
+		            	queue.push({fn: fn, args: args, t: t});
+		            } else {
+		                schedule(fn, args, t);
+		            }
+		            return self;
+		        },
+		        cancel: function() {
+		        	clearTimeout(timer);
+		        	queue = [];
+		        	return self;
+		        },
+		        disable: function() {
+		        	disabled = true;
+		        	return self;
+		        },
+		        enable: function() {
+		        	disabled = false;
+		        	return self;
+		        }
+		    };
+		    return self.delay(fn, args, t);
+		}
+		function setClass(node)
+		{
+			node.className="active";
+		}
+		function removeClass(node)
+		{
+			node.className="";
+		}
+		function find(node)
+		{
+			node.className="found";
+			found=!confirm('你瞎啥呀！逮着一个了，瘪犊子玩意还接着找不？(钢背兽)');
+			isRun = !found;
+			founded=true;
+			//delayChian.disable();
+		}
+		//动画设置
+
+
+
+
+		function dosomething(node,arg)
+		{
+			for (i in node.childNodes) {
+				if(node.childNodes[i].data&&node.childNodes[i].data.trim()===arg){
+					delayChian.delay(setClass,node,0).delay(find,node,500).delay(function(){if(found)delayChian.cancel().disable();},node,500)
+					return;
+				}
+			}
+			delayChian.delay(setClass,node,0).delay(removeClass,node,500);
+		}
+		//做一些事
+
+
+
+
+		function preOrder(node,arg)
+		{
+			if(!node||found)
+				return;
+			dosomething(node,arg);
+			preOrder(node.firstElementChild,arg);
+			if(node.children.length>=2)
+			preOrder(node.lastElementChild,arg);
+		}//前序遍历
+
+		function inOrder(node,arg)
+		{
+			if(!node||found)
+				return;
+			inOrder(node.firstElementChild,arg);
+			dosomething(node,arg);
+			if(node.children.length>=2)
+			inOrder(node.lastElementChild,arg);
+		}//中序遍历
+
+		function postOrder(node,arg)
+		{
+			if(!node||found)
+				return;
+			postOrder(node.firstElementChild,arg);
+			if(node.children.length>=2)
+			postOrder(node.lastElementChild,arg);
+			dosomething(node,arg);
+		}//后序遍历
+
+		function levelOrder(node,arg)
+		{
+			this.q=this.q||new Array();
+			if(!node||found)
+				return;
+			q.push(node);
+			dosomething(node,arg);
+			levelOrder(node.nextElementSibling,arg);
+			node = q.shift();
+			levelOrder(node.firstElementChild,arg);
+		}//层序  广度优先
+
+		function depthOrder(node,arg)
+		{
+			this.q=this.q||new Array();
+			if(!node||found)
+				return;
+			q.push(node);
+			dosomething(node,arg);
+			depthOrder(node.firstElementChild,arg);
+			node = q.pop();
+			depthOrder(node.nextElementSibling,arg);
+		}//深度优先
+
+		function Traversal(order,arg)
+		{
+			if(isRun){
+				alert('手离开鼠标！憋说话，吻我！');
+				return;
+			}
+			arg = arg==='search'?$('#search').value.trim():null;
+			if(arg=="")
+			{
+				alert("请不要输入空字符串");
+				return;
+			}
+			init();
+			found=false;
+			founded=false;
+			delayChian.enable();
+			switch(order)
+			{
+				case 'pre':alert("将树当做二叉树搜索，仅搜索first,last子节点");preOrder($('#root'),arg);break;
+				case 'in':alert("将树当做二叉树搜索，仅搜索first,last子节点");inOrder($('#root'),arg);break;
+				case 'post':alert("将树当做二叉树搜索，仅搜索first,last子节点");postOrder($('#root'),arg);break;
+				case 'level':levelOrder($('#root'),arg);break;
+				case 'depth':depthOrder($('#root'),arg);break;
+			}
+				delayChian.delay(function(){if(!founded&&arg)alert('然而并没找到');},null,500);
+		}
+		function init()
+		{
+			if(isRun){
+				alert('手离开鼠标！憋说话，吻我！');
+				return;
+			}
+			$("#root").innerHTML=$("#node").value;
+		}
+	</script>
+</body>
+</html>
