@@ -137,6 +137,10 @@
     }
 
     function randomForTest() {
+      if (inAnimation) {
+        alert('in animation');
+        return;
+      }
       data = [];
       for (var i = 0; i < 50; i++) {
         data.push(Math.floor(Math.random() * 91 + 10));
@@ -204,6 +208,10 @@
     $('#right-out').onclick = deal([].pop, window.alert);
     $('#result').onclick = deal([].splice, null, getClickIndex, 1);
     $('#sort').onclick = function(){
+      if (inAnimation) {
+        alert('in animation');
+        return;
+      }
       inAnimation = true;
       renderInterval = parseInt($('#renderInterval').value);
       renderInterval = renderInterval || 150;
