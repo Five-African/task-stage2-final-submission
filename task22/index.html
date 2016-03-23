@@ -51,7 +51,7 @@
 		function delay(fn, args, t) {
 		    // private instance variables
 		    var queue = [], self, timer;
-    
+
 		    function schedule(fn, args, t) {
 		    	timer = setTimeout(function() {
 		    		timer = null;
@@ -60,7 +60,7 @@
 		    			var item = queue.shift();
 		    			schedule(item.fn, item.args, item.t);
 		    		}
-		    	}, t);            
+		    	}, t);
 		    }
 		    self = {
 		    	delay: function(fn, args, t) {
@@ -109,10 +109,10 @@
 		{
 			if(!node)
 				return;
-			midOrder(node.firstElementChild);
+			inOrder(node.firstElementChild);
 			dosomething(node);
 			if(node.children.length>=2)
-				midOrder(node.lastElementChild);
+				inOrder(node.lastElementChild);
 		}
 
 		function postOrder(node)
