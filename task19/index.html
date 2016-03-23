@@ -153,7 +153,10 @@
     function deal(func, succ) {
       var args = [].slice.call(arguments, 2);
       return function(e) {
-        if (inAnimation) return;
+        if (inAnimation) {
+          alert('in animation');
+          return;
+        }
 
         try {
           var arg = args.map(function(item) {
