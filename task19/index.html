@@ -205,7 +205,9 @@
       renderInterval = parseInt($('#renderInterval').value);
       renderInterval = renderInterval || 150;
       sort(0, getLastIndex());
-      inAnimation = false;
+      aniQue.delay(function(){
+        inAnimation = false;
+      }, 0);
     };
     $('#random').onclick = randomForTest;
   </script>
