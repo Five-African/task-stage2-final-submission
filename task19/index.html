@@ -41,11 +41,12 @@
     $ = function (el) { return document.querySelector(el); };
     $$ = function (el) { return document.querySelectorAll(el); };
     var data = [];
-    var sizeFactor = 5;
-    var aniQue = delay(function(){}, 0);
-    var inAnimation = false;
-    var renderInterval = 150;
+    var sizeFactor = 5; // 大，大，大
+    var aniQue = delay(function(){}, 0); // = animationQueue
+    var inAnimation = false; // true: 不要动，举起手来，离开鼠标和键盘
+    var renderInterval = 150; // 设成10才是真快感
 
+    /* delay还是queue？ */
     function delay(fn, t) {
       var queue = [], self, timer;
       function schedule(fn, t) {
@@ -75,6 +76,7 @@
       return self.delay(fn, t);
     }
 
+    /* 为什么你怎么快 */
     function sort_partition(left, right) {
       var p = data[left];
       renderSortRange(left, right, false);
@@ -99,6 +101,7 @@
       return left;
     }
 
+    /* 为什么你怎么快 */
     function sort(left, right) {
       if (left >= right) return;
 
@@ -111,6 +114,7 @@
       }
     }
 
+    /* 动起来，哈压库哈压库 */
     function renderSort(idx, value) {
       aniQue.delay(function() {
         $$('#result div')[idx].className = 'blue';
@@ -128,6 +132,7 @@
       }, renderInterval);
     }
 
+    /* 就决定排你们了 */
     function renderSortRange(start, end, cancel) {
       aniQue.delay(function() {
         for (var i = start; i <= end; i++) {
@@ -136,6 +141,7 @@
       }, 0);
     }
 
+    /* 天赐神数 */
     function randomForTest() {
       if (inAnimation) {
         alert('in animation');
@@ -148,12 +154,14 @@
       render();
     }
 
+    /* 我要看所有的 */
     function render() {
       $('#result').innerHTML =
         data.map(function(d) { return "<div class='red' style='height:" + d * sizeFactor + "px' title='" + d + "'></div>"; })
           .join('');
     }
 
+    /* 帮我绑定好回调。sort和random要插进去就太丑了，暂时舍弃 */
     function deal(func, succ) {
       var args = [].slice.call(arguments, 2);
       return function(e) {
@@ -179,6 +187,7 @@
       };
     }
 
+    /* 你输了什么？ */
     function getInputValue() {
       var numStr = $('input').value;
       if (!validateStr(numStr)) throw new Error('input error');
@@ -188,20 +197,24 @@
       return val;
     }
 
+    /* 你单击了什么？ */
     function getClickIndex(e) {
       var node = e.target;
-      if (node.id == "result") throw new Error(''); // do not deal this
+      if (node.id == "result") throw new Error(''); // 中断你们，破坏流程，毁灭世界
       return [].indexOf.call(node.parentNode.children, node);
     }
 
+    /* 不要太勤奋，lazy */
     function getLastIndex() {
       return data.length - 1;
     }
 
+    /* 过滤掉万恶的QA和小白 */
     function validateStr(str) {
       return /\d+/.test(str);
     }
 
+    /* 全部都绑起来 */
     $('#left-in').onclick = deal([].unshift, null, getInputValue);
     $('#right-in').onclick = deal([].push, null, getInputValue);
     $('#left-out').onclick = deal([].shift, window.alert);
