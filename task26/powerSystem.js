@@ -20,6 +20,9 @@ PowerSystem.prototype.run = function() {
       if (this.ship.position > 360)
         this.ship.position -= 360;
     }
+    else {
+      this.stop();
+    }
   }).bind(this), 100);
   Logger.log('startup', this.ship);
 }
