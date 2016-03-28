@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Task 27</title>
+  <style>
+    #universe {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      background-color: black;
+      color: white;
+      float: left;
+    }
+    #control {
+      margin-left: 510px;
+    }
+
+    #planet {
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+      background-color: blue;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -25px;
+      margin-left: -25px;
+    }
+    #planet div {
+      line-height: 50px;
+      text-align: center;
+    }
+
+    #ships {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      height: 225px;
+    }
+    #ships div {
+      background-color: lightgray;
+      color: black;
+      width: 70px;
+      height: 20px;
+      margin: 5px 0px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="universe">
+    <div id="planet"><div>HQ</div></div>
+    <div id="ships"></div>
+  </div>
+  <div id="control">
+    动力系统选择：<br/>
+    <input type="radio" name="ps" value="1" /> 前进号（速率30px/s，能耗5%/s）<br/>
+    <input type="radio" name="ps" value="2" /> 奔腾号（速率50px/s，能耗7%/s）<br/>
+    <input type="radio" name="ps" value="3" /> 超越号（速率80px/s，能耗9%/s）<br/>
+    能源系统选择：<br/>
+    <input type="radio" name="ss" value="1" /> 劲量型（补充能源速度2%/s）<br/>
+    <input type="radio" name="ss" value="2" /> 光能型（补充能源速度3%/s）<br/>
+    <input type="radio" name="ss" value="3" /> 永久型（补充能源速度4%/s）<br/>
+    <button id="create-btn">新的飞船起飞</button>
+    <div id="ship-controller"></div>
+  </div>
+  <textarea id="console"></textarea><br/>
+  Tips: better format in the browser's developper tool.
+  <script src="logger.js"></script>
+  <script src="mediator.js"></script>
+  <script src="powerSystem.js"></script>
+  <script src="supplySystem.js"></script>
+  <script src="destroySystem.js"></script>
+  <script src="encodeDecorator.js"></script>
+  <script src="notifySystem.js"></script>
+  <script src="shipFactory.js"></script>
+  <script src="headQuarter.js"></script>
+  <script src="render.js"></script>
+</body>
+</html>
