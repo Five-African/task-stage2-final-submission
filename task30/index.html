@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Task 30
+    </title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+      <label id='name'>
+          <span>名称：</span>
+          <input type="text" onkeyup="checkName(this);" onfocus="checkName(this);" onblur="checkName(this);hiddenTip(this);"/>
+          <span id="tip">必填，长度为4~16个字符</span>
+      </label>
+      <label id='password'>
+          <span>密码：</span>
+          <input type="password" onkeyup="checkPassword(this);" onfocus="checkPassword(this);" onblur="checkPassword(this);hiddenTip(this);"/>
+          <span id="tip"></span>
+      </label>
+      <label id="passwordConfirm">
+          <span>密码确认：</span>
+          <input type="password" onkeyup="checkPasswordConfirm(this);" onfocus="checkPasswordConfirm(this);" onblur="checkPasswordConfirm(this);hiddenTip(this);"/>
+          <span id="tip"></span>
+      </label>
+      <label id='email'>
+          <span>邮箱：</span>
+          <input type="text" onkeyup="checkEmail(this);" onfocus="checkEmail(this);" onblur="checkEmail(this);hiddenTip(this);"/>
+          <span id="tip"></span>
+      </label>
+      <label id='phoneNumber'>
+          <span>手机：</span>
+          <input type="text" onkeyup="checkPhoneNumber(this);" onfocus="checkPhoneNumber(this);" onblur="checkPhoneNumber(this);hiddenTip(this);"/>
+          <span id="tip"></span>
+      </label>
+      <label id='btn'>
+          <input type="button" value="提交" onclick="clickBtn();"/>
+      </label>
+      <script src="main.js"></script>
+  </body>
+</html>
